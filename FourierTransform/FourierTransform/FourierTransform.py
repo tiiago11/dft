@@ -23,11 +23,33 @@ def IDFT_slow(x):
     M = np.exp(2j * np.pi * k * n / N)
     return 1.0/N * np.dot(M, x)
 
+def zero_upper_range(x, upper_threshold):
+    """set to zero values larger than upper_threshold"""
+    x = np.asarray(x, dtype=complex)
+    count = 0
+    for i in range(0, x.shape[0], 1):
+        if x[i].real > upper_threshold:
+            x[i] = complex(0, 0j)
+            count+=1
+    print("zeroed samples: ", count)
+    return x;
+
+def zero_lower_range(x, lower_threshold):
+    """set to zero values larger than lower_threshold"""
+    x = np.asarray(x, dtype=complex)
+    count = 0
+    for i in range(0, x.shape[0], 1):
+        if x[i].real < lower_threshold:
+            x[i] = complex(0, 0j)
+            count+=1
+    print("zeroed samples: ", count)
+    return x;
+
 #load audio
 w = wave.open("./audio-samples/lz-s2h-beginning.wav", "rb")
 print('Frames: ' + str(w.getnframes()))
 print('Channels: ' + str(w.getnchannels()))
-frames = w.readframes(256)
+frames = w.readframes(64)
 array = np.frombuffer(frames, dtype = "ubyte")
 
 #test dft
@@ -36,15 +58,16 @@ iff = IDFT_slow(fff)
 print(np.allclose(fff, np.fft.fft(array))) # verify our dft against known fft implementation
 print(np.allclose(IDFT_slow(fff), np.fft.ifft(fff))) # verify our idft against known ifft implementation
 
-#get the real part
-iff_real = []
-for i in range(0, iff.shape[0], 1):
-    iff_real.append(iff[i].real * 0.9) # Scale a little bit to look different
+#truncation
+print("input samples: ", len(array))
+#ff_truncated = zero_upper_range(fff, 200) # set to zero values larger than
+ff_truncated = zero_lower_range(fff, 10)   # set to zero values lower than
+iff_truncated = IDFT_slow(ff_truncated) # reconstruct the signal
 
 #gen graph
-N = len(iff_real)
+N = len(iff)
 t = arange(0, N)
-plot(t, iff_real)
+plot(t, iff_truncated)
 plot(t, array)
 axis([0, N, amin(array)*10, amax(array)]) #[minx, maxx, miny,maxy]
 xlabel('sample')
