@@ -24,7 +24,6 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="dft.py" />
     <Compile Include="FourierTransform.py" />
   </ItemGroup>
   <ItemGroup>
