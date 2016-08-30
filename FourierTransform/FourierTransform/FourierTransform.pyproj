@@ -12,7 +12,7 @@
     <OutputPath>.</OutputPath>
     <Name>FourierTransform</Name>
     <RootNamespace>FourierTransform</RootNamespace>
-    <InterpreterId>{a87c4fc6-d9df-41e1-8c42-4e338e557867}</InterpreterId>
+    <InterpreterId>{9a7a9026-48c1-4688-9d5d-e5699d47d074}</InterpreterId>
     <InterpreterVersion>3.5</InterpreterVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -27,17 +27,7 @@
     <Compile Include="FourierTransform.py" />
   </ItemGroup>
   <ItemGroup>
-    <Interpreter Include="env\">
-      <Id>{a87c4fc6-d9df-41e1-8c42-4e338e557867}</Id>
-      <BaseInterpreter>{2af0f10d-7135-4994-9156-5d01c9c11b7e}</BaseInterpreter>
-      <Version>3.5</Version>
-      <Description>env (Python 3.5)</Description>
-      <InterpreterPath>Scripts\python.exe</InterpreterPath>
-      <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
-      <LibraryPath>Lib\</LibraryPath>
-      <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
-      <Architecture>X86</Architecture>
-    </Interpreter>
+    <InterpreterReference Include="{9a7a9026-48c1-4688-9d5d-e5699d47d074}\3.5" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
