@@ -1,42 +1,87 @@
-######################################################
-########################## test 1D DFT with audio wave
-######################################################
 import wave
 import numpy as np
 from pylab import *
 import FourierTransform as ourft
 
-#load audio
+
+
+######################################################
+############################ test ours against numpy's
+######################################################
 w = wave.open("./audio-samples/lz-s2h-solo.wav", "rb")
-#w = wave.open("./audio-samples/bass.wav", "rb")
-print('Frames: ' + str(w.getnframes()))
-print('Channels: ' + str(w.getnchannels()))
-frames = w.readframes(64)
+frames = w.readframes(2048)
 array = np.frombuffer(frames, dtype = "ubyte")
 
-#test dft
-fff = ourft.DFT_slow(array)
-iff = ourft.IDFT_slow(fff)
-print(np.allclose(fff, np.fft.fft(array))) # verify our dft against known fft implementation
-print(np.allclose(ourft.IDFT_slow(fff), np.fft.ifft(fff))) # verify our idft against known ifft implementation
+ours_fff = ourft.DFT_slow(array)
+ours_iff = ourft.IDFT_slow(ours_fff)
 
-#truncation
-print("input samples: ", len(array))
-#ff_truncated = ourft.zero_upper_range(fff, 200) # set to zero values larger than
-truncatebelow = 10
-ff_truncated = ourft.zero_lower_range(fff, truncatebelow)   # set to zero values lower than
-iff_truncated = ourft.IDFT_slow(ff_truncated) # reconstruct the signal
+numpys_fff = np.fft.fft(array)
+numpys_iff = np.fft.ift(numpys_fff)
 
-#gen graph
-N = len(iff)
-t = np.arange(0, N)
-plot(t, iff_truncated, label='reconstructed')
-plot(t, array, label='original')
-legend(loc='upper right')
-axis([0, N, amin(array), amax(array)]) #[minx, maxx, miny,maxy]
-xlabel('sample')
-ylabel('amplitude')
-title('Truncated DFT below ' + str(truncatebelow))
+print(np.allclose(ours_fff, numpys_fff)) # verify our dft against known fft implementation
+print(np.allclose(ours_iff, numpys_iff)) # verify our idft against known ifft implementation
 
-# plot audio wave
-show()
+
+
+
+
+#######################################################
+##################################### truncate and plot
+#######################################################
+#truncabove = True
+#trunc_threshold = 2048 * 14
+
+#w = wave.open("./audio-samples/lz-s2h-solo.wav", "rb")
+#frames = w.readframes(2048)
+#array = np.frombuffer(frames, dtype = "ubyte")
+#fff = np.fft.fft(array)
+## truncate
+#if (truncabove):
+#    fff = ourft.zero_upper_range(fff, trunc_threshold)
+#else:
+#    fff = ourft.zero_lower_range(fff, trunc_threshold)
+
+#iff = np.fft.ifft(fff)
+
+## plot
+#N = len(iff)
+#t = np.arange(0, N)
+#plot(t, iff, label='reconstructed')
+#plot(t, array, label='original')
+#legend(loc='upper right')
+#axis([0, N, amin(array), amax(array)]) #[minx, maxx, miny,maxy]
+#xlabel('sample')
+#ylabel('amplitude')
+
+#if (truncabove):
+#    title('Truncated DFT above ' + str(trunc_threshold))
+#else:
+#    title('Truncated DFT below ' + str(trunc_threshold))
+
+#show()
+
+
+
+
+
+######################################################
+######################### truncate and save audio file
+######################################################
+
+#w = wave.open("./audio-samples/lz-s2h-solo.wav", "rb")
+#rec = wave.open("./output/reconstructed.wav", "wb")
+#rec.setparams(w.getparams())
+
+#framesread = 0
+#while framesread < 2048 * 200:
+#    framesread += 2048
+#    frames = w.readframes(2048)
+#    array = np.frombuffer(frames, dtype = "ubyte")
+#    fff = np.fft.fft(array)
+#    fff = ourft.zero_upper_range(fff, 2048 * 14)
+#    #fff = ourft.zero_lower_range(fff, -2048 * 14)
+#    iff = np.fft.ifft(fff)
+#    rec.writeframes(np.asarray(iff, dtype=int8))
+
+#rec.close()
+
