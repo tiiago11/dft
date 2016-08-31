@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>ecf0919f-b36d-4ffc-97bf-afb601826800</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>FourierTransform.py</StartupFile>
+    <StartupFile>Image.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -24,7 +24,13 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Audio.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="FourierTransform.py" />
+    <Compile Include="Image.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="env\">
