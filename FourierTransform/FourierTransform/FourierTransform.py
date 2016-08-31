@@ -3,12 +3,12 @@ import wave
 import os
 from pylab import *
 import matplotlib.pyplot as plt
-import cmath
+from PIL import Image
 
 def DFT_slow(x):
     """Compute the discrete Fourier Transform of the 1D array x
     from https://jakevdp.github.io/blog/2013/08/28/understanding-the-fft/"""
-    x = np.asarray(x, dtype=float)
+    x = np.asarray(x, dtype=complex)
     N = len(x)
     n = np.arange(N)
     k = n.reshape((N, 1))
@@ -32,11 +32,27 @@ def DFT2D_slow(x):
     N = len(x[0])
     mat = np.zeros((M, N), np.complex)
     
-    for line in range(M):
-        mat[line] = DFT_slow(x[line])
+    for row in range(M):
+        mat[row] = DFT_slow(x[row])
 
     for col in range(N):
         mat[:,col] = DFT_slow(mat[:,col])
+
+    return mat
+
+def IDFT2D_slow(x):
+    """Compute the discrete Fourier Transform of the 2D array x"""
+    x = np.asarray(x, dtype=complex)
+    
+    M = len(x)
+    N = len(x[0])
+    mat = np.zeros((M, N), np.complex)
+    
+    for row in range(M):
+        mat[row] = IDFT_slow(x[row])
+
+    for col in range(N):
+        mat[:,col] = IDFT_slow(mat[:,col])
 
     return mat
 
@@ -48,13 +64,18 @@ def DFT2D_slow(x):
 #    N = len(x[0])
 #    mat = np.zeros((M, N), np.complex)
     
+#    sumOutter = 0
+#    sumInner = 0
 #    for k in range(M):
 #        for l in range(N):
-#            sum = 0.0
 #            for m in range(M):
 #                for n in range(N):
-#                    sum += x[m][n] * np.exp(-2j * np.pi * ( float(m*k)/M + float(n*l)/N))
-#            mat[l][k] = sum / float(M*N)
+#                    sumInner += x[m][n] * np.exp(-2j * np.pi * ( float(m*k)/float(M) + float(n*l)/float(N)))
+#                sumOutter += sumInner
+#            mat[l][k] = sumOutter / float(M*N)
+#            sumOutter = 0
+#            sumInner = 0
+
 #    return mat;
 
 def zero_upper_range(x, upper_threshold):
@@ -79,38 +100,71 @@ def zero_lower_range(x, lower_threshold):
     print("zeroed samples: ", count)
     return x;
 
-#load audio
-w = wave.open("./audio-samples/lz-s2h-beginning.wav", "rb")
-print('Frames: ' + str(w.getnframes()))
-print('Channels: ' + str(w.getnchannels()))
-frames = w.readframes(512)
-array = np.frombuffer(frames, dtype = "ubyte")
+######################################################
+########################## test 1D DFT with audio wave
+######################################################
 
-#test dft
-fff = DFT_slow(array)
-iff = IDFT_slow(fff)
-print(np.allclose(fff, np.fft.fft(array))) # verify our dft against known fft implementation
-print(np.allclose(IDFT_slow(fff), np.fft.ifft(fff))) # verify our idft against known ifft implementation
+##load audio
+#w = wave.open("./audio-samples/lz-s2h-beginning.wav", "rb")
+#print('Frames: ' + str(w.getnframes()))
+#print('Channels: ' + str(w.getnchannels()))
+#frames = w.readframes(512)
+#array = np.frombuffer(frames, dtype = "ubyte")
 
-#truncation
-print("input samples: ", len(array))
-#ff_truncated = zero_upper_range(fff, 200) # set to zero values larger than
-ff_truncated = zero_lower_range(fff, 10)   # set to zero values lower than
-iff_truncated = IDFT_slow(ff_truncated) # reconstruct the signal
+##test dft
+#fff = DFT_slow(array)
+#iff = IDFT_slow(fff)
+#print(np.allclose(fff, np.fft.fft(array))) # verify our dft against known fft implementation
+#print(np.allclose(IDFT_slow(fff), np.fft.ifft(fff))) # verify our idft against known ifft implementation
 
-#gen graph
-N = len(iff)
-t = arange(0, N)
-plot(t, iff_truncated)
-plot(t, array)
-axis([0, N, amin(array), amax(array)]) #[minx, maxx, miny,maxy]
-xlabel('sample')
-ylabel('amplitude')
-title('Stairway To Heaven DFT')
+##truncation
+#print("input samples: ", len(array))
+##ff_truncated = zero_upper_range(fff, 200) # set to zero values larger than
+#ff_truncated = zero_lower_range(fff, 10)   # set to zero values lower than
+#iff_truncated = IDFT_slow(ff_truncated) # reconstruct the signal
+
+##gen graph
+#N = len(iff)
+#t = arange(0, N)
+#plot(t, iff_truncated)
+#plot(t, array)
+#axis([0, N, amin(array), amax(array)]) #[minx, maxx, miny,maxy]
+#xlabel('sample')
+#ylabel('amplitude')
+#title('Stairway To Heaven DFT')
 
 #show() # plot audio wave
 
-# test 2d transform
-R = np.mgrid[:5, :5][0]
-ff2d = DFT2D_slow(R)
-print(np.allclose(ff2d, np.fft.fft2(R)))
+###################################################
+########################## Test 2D DFT with image
+###################################################
+
+#load image
+img = Image.open("images/lena_128.png")
+rgb_im = img.convert('RGB')
+pixels = rgb_im.load()
+(W,H) = rgb_im.size
+red_channel = np.zeros((W, H), np.float) # for now, we want only the red channel
+for x in range(H):
+    for y in range(W):
+        r, g, b = pixels[x,y]
+        red_channel[x][y] = r
+
+#compute forward 
+ff2d = DFT2D_slow(red_channel)
+print(np.allclose(ff2d, np.fft.fft2(red_channel)))
+#compute inverse 
+iff2d = IDFT2D_slow(ff2d)
+print(np.allclose(iff2d, np.fft.ifft2(ff2d)))
+#compare original signal to the inverse
+print(np.allclose(iff2d, red_channel))
+
+#save red-ish image
+image = Image.new("RGB", (W, H))
+img_data = image.load() 
+for x in range(H):
+    for y in range(W):
+        img_data[x,y] = (int(iff2d[x][y].real), 0, 0)
+
+image.save("output.png", "PNG")
+
