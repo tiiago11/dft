@@ -62,6 +62,17 @@ def calculate_magnitude_2d(x):
 
     return mat
 
+def calculate_phase_angle_2d(x):
+    x = np.asarray(x, dtype=complex)
+    M = len(x)
+    N = len(x[0])
+    mat = np.zeros((M, N), np.float)
+    for i in range(M):
+        for j in range(N):
+            mat[i][j] = np.arctan2(x[i][j].imag, x[i][j].real)
+    return mat
+
+
 def zero_upper_range(x, upper_threshold):
     """set to zero values larger than upper_threshold"""
     x = np.asarray(x, dtype=complex)
