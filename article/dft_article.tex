@@ -1,0 +1,64 @@
+\documentclass[12pt]{article}
+
+\usepackage{sbc-template}
+
+\usepackage{graphicx,url}
+\usepackage{mathptmx}
+\usepackage{graphicx}
+\usepackage{times}
+\usepackage{enumitem}
+\usepackage[]{algorithm2e}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{pdfpages}
+\usepackage{booktabs}
+
+%\usepackage[brazil]{babel}   
+\usepackage[latin1]{inputenc} 
+
+
+\sloppy
+\title{Discrete Fourier Transform for Dummies}
+
+\author{Alex Frasson and Tiago Augusto Engel\inst{1}}
+
+
+\address{Universidade Federal de Santa Maria (UFSM)\\ 
+	\email{\{afrasson,tengel\}@inf.ufsm.br}
+}
+
+\begin{document} 
+\maketitle
+
+
+\begin{abstract}
+blalball
+\end{abstract}
+
+\section{Introduction}
+
+\section{1D DFT Definition}
+\begin{equation}
+F(u)=\sum_{x=0}^{M-1}f(x) e^{-j 2\pi u x / N}
+\end{equation}
+where $u = 0,1,2,\dots, M-1$
+
+\begin{equation}
+f(x)=\frac{1}{M}\sum_{u=0}^{M-1}F(u) e^{j 2\pi u x / N}
+\end{equation}
+where $x = 0,1,2,\dots, M-1$
+
+\section{2D DFT Definition}
+\begin{equation}
+F(k,l)=\frac{1}{MN}\sum_{m=0}^{M-1}\sum_{n=0}^{N-1} f(m,n) e^{-j 2\pi (\frac{km}{M} + \frac{ln}{N})}
+\end{equation}
+where $m = 0,1,2,\dots, M-1$ and $n = 0,1,2,\dots, N-1$
+
+\begin{equation}
+f(m,n)=\sum_{k=0}^{M-1}\sum_{l=0}^{N-1} F(k,l) e^{j 2\pi (\frac{km}{M} + \frac{ln}{N})}
+\end{equation}
+where $k = 0,1,2,\dots, M-1$ and $l = 0,1,2,\dots, N-1$
+
+\bibliographystyle{sbc}
+\bibliography{references}
+
+\end{document}
