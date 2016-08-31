@@ -30,6 +30,22 @@
 
 \section{Introduction}
 
+\section{The Real DFT}
+
+nesse link explica 
+
+http://www.analog.com/media/en/technical-documentation/dsp-book/dsp\_book\_Ch31.pdf
+
+\begin{equation}
+ReX(k)=\frac{2}{N} \sum_{n=0}^{N-1}f(n) \cos(2\pi kn/N)
+\end{equation}
+\begin{equation}
+ImX(k)=\frac{-2}{N} \sum_{n=0}^{N-1}f(n) \sin(2\pi kn/N)
+\end{equation}
+
+The N sample time domain signal $f(n)$ is decomposed into a set of N/2+1 cosine, and N/2+1 sine waves, with frequencies given by the index $k$. The amplitudes of the cosine waves are contained in $ReX(k)$, while the amplitudes of the sine waves are contained in $ImX(n)$. These  equations operate by correlating the respective cosine or sine wave with the time domain signal.  In spite of using the names: real part and imaginary part, there are no complex  numbers in these equations\cite{Analog2016}.
+
+
 \section{1D DFT Definition}
 \begin{equation}
 F(u)=\sum_{x=0}^{M-1}f(x) e^{-j 2\pi u x / N}
@@ -44,6 +60,8 @@ where $x = 0,1,2,\dots, M-1$
 \subsection{Implementation}
 
 \section{2D DFT Definition}
+
+
 \begin{equation}
 F(k,l)=\frac{1}{MN}\sum_{m=0}^{M-1}\sum_{n=0}^{N-1} f(m,n) e^{-j 2\pi (\frac{km}{M} + \frac{ln}{N})}
 \end{equation}
@@ -55,6 +73,7 @@ f(m,n)=\sum_{k=0}^{M-1}\sum_{l=0}^{N-1} F(k,l) e^{j 2\pi (\frac{km}{M} + \frac{l
 where $k = 0,1,2,\dots, M-1$ and $l = 0,1,2,\dots, N-1$
 
 \subsection{The spectrum}
+\subsection{The magnitude}
 
 
 \bibliographystyle{sbc}
