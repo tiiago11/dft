@@ -1,5 +1,6 @@
 run_module_suite
 np
+test_locale_longdouble
 in_foreign_locale
 _check_complex_inf_nan
 nose
@@ -11,6 +12,7 @@ check_float_type_print
 SkipTest
 StringIO
 _REF
+test_locale_double
 sys
 absolute_import
 _test_redirected_print
@@ -25,4 +27,5 @@ test_scalar_format
 test_float_type_print
 test_float_types
 check_complex_type
+test_locale_single
 assert_equal

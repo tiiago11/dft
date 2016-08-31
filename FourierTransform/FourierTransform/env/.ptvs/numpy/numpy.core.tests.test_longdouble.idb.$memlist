@@ -20,7 +20,6 @@ test_repr_roundtrip
 in_foreign_locale
 test_bogus_string
 test_string
-test_array_repr
 locale
 FileBased
 absolute_import

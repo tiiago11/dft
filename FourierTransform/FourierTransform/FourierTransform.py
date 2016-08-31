@@ -2,7 +2,7 @@ import numpy as np
 import wave
 import os
 from pylab import *
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as pl
 from PIL import Image
 
 def DFT_slow(x):

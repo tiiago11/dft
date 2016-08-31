@@ -3,8 +3,8 @@ isinstance
 mtransforms
 six
 _interpd_
-fromarray
 BESSEL
+urlopen
 BboxBase
 max
 list
@@ -16,8 +16,8 @@ warnings
 QUADRIC
 min
 FigureImage
-os
-NEAREST
+HANNING
+np
 LANCZOS
 dict
 print_function
@@ -50,7 +50,7 @@ thumbnail
 SPLINE36
 BILINEAR
 pcolor2
-urlopen
+fromarray
 Image
 martist
 BytesIO
@@ -63,9 +63,9 @@ mcolors
 ValueError
 frombyte
 print
-HANNING
+os
 open
-np
+NEAREST
 _png
 super
 ASPECT_FREE
