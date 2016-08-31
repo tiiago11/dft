@@ -63,7 +63,7 @@ def calculate_magnitude_2d(x):
     mat = np.zeros((M, N), np.float)
     for i in range(M):
         for j in range(N):
-            mat[i][j] = np.sqrt(x[i][j].real*x[i][j].real+x[i][j].imag*x[i][j].imag) / 255.0
+            mat[i][j] = np.sqrt(x[i][j].real*x[i][j].real+x[i][j].imag*x[i][j].imag)
 
     return mat
 
@@ -142,13 +142,22 @@ print(np.allclose(iff2d, np.fft.ifft2(ff2d)))
 #compare original signal to the inverse
 print(np.allclose(iff2d, pixels))
 
-#save red-ish image
+#### save reconstructed image
 image = Image.new("L", (M, N))
-img_data = image.load() 
+img_data = image.load()
 for x in range(M):
     for y in range(N):
         img_data[y,x] = int(iff2d[x,y].real)
 
 image.save("output.png", "PNG")
-#magMap = calculate_magnitude_2d(iff2d)
+
+## Save magnitude image
+# not sure if this is right
+magMap = calculate_magnitude_2d(ff2d)
+image2 = Image.new("L", (M, N))
+img_data2 = image2.load() 
+for x in range(M):
+    for y in range(N):
+        img_data2[y,x] = int(magMap[x,y])
+image2.save("output_mag.png", "PNG")
 
