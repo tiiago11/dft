@@ -56,27 +56,16 @@ def IDFT2D_slow(x):
 
     return mat
 
-#def DFT2D_slow(x):
-#    """Compute the discrete Fourier Transform of the 2D array x
-#       TODO fix"""
-#    x = np.asarray(x, dtype=complex)
-#    M = len(x)
-#    N = len(x[0])
-#    mat = np.zeros((M, N), np.complex)
-    
-#    sumOutter = 0
-#    sumInner = 0
-#    for k in range(M):
-#        for l in range(N):
-#            for m in range(M):
-#                for n in range(N):
-#                    sumInner += x[m][n] * np.exp(-2j * np.pi * ( float(m*k)/float(M) + float(n*l)/float(N)))
-#                sumOutter += sumInner
-#            mat[l][k] = sumOutter / float(M*N)
-#            sumOutter = 0
-#            sumInner = 0
+def calculate_magnitude_2d(x):
+    x = np.asarray(x, dtype=complex)
+    M = len(x)
+    N = len(x[0])
+    mat = np.zeros((M, N), np.float)
+    for i in range(M):
+        for j in range(N):
+            mat[i][j] = np.sqrt(x[i][j].real*x[i][j].real+x[i][j].imag*x[i][j].imag) / 255.0
 
-#    return mat;
+    return mat
 
 def zero_upper_range(x, upper_threshold):
     """set to zero values larger than upper_threshold"""
@@ -140,31 +129,26 @@ def zero_lower_range(x, lower_threshold):
 ###################################################
 
 #load image
-img = Image.open("images/lena_128.png")
-rgb_im = img.convert('RGB')
-pixels = rgb_im.load()
-(W,H) = rgb_im.size
-red_channel = np.zeros((W, H), np.float) # for now, we want only the red channel
-for x in range(H):
-    for y in range(W):
-        r, g, b = pixels[x,y]
-        red_channel[x][y] = r
+img = Image.open("images/lena_128.png").convert("L") # use greyscale
+pixels = np.asarray(img.getdata(),dtype=np.float32).reshape((img.size[1],img.size[0]))
+(M,N) = img.size
 
 #compute forward 
-ff2d = DFT2D_slow(red_channel)
-print(np.allclose(ff2d, np.fft.fft2(red_channel)))
+ff2d = DFT2D_slow(pixels)
+print(np.allclose(ff2d, np.fft.fft2(pixels)))
 #compute inverse 
 iff2d = IDFT2D_slow(ff2d)
 print(np.allclose(iff2d, np.fft.ifft2(ff2d)))
 #compare original signal to the inverse
-print(np.allclose(iff2d, red_channel))
+print(np.allclose(iff2d, pixels))
 
 #save red-ish image
-image = Image.new("RGB", (W, H))
+image = Image.new("L", (M, N))
 img_data = image.load() 
-for x in range(H):
-    for y in range(W):
-        img_data[x,y] = (int(iff2d[x][y].real), 0, 0)
+for x in range(M):
+    for y in range(N):
+        img_data[y,x] = int(iff2d[x,y].real)
 
 image.save("output.png", "PNG")
+#magMap = calculate_magnitude_2d(iff2d)
 
