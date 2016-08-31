@@ -6,7 +6,7 @@ import FourierTransform as ourft
 
 
 ######################################################
-############################ test ours against numpy's
+############################ Test ours against numpy's
 ######################################################
 w = wave.open("./audio-samples/lz-s2h-solo.wav", "rb")
 frames = w.readframes(2048)
@@ -26,7 +26,7 @@ print(np.allclose(ours_iff, numpys_iff)) # verify our idft against known ifft im
 
 
 #######################################################
-##################################### truncate and plot
+##################################### Truncate and plot
 #######################################################
 #truncabove = True
 #trunc_threshold = 2048 * 14
@@ -57,7 +57,6 @@ print(np.allclose(ours_iff, numpys_iff)) # verify our idft against known ifft im
 #    title('Truncated DFT above ' + str(trunc_threshold))
 #else:
 #    title('Truncated DFT below ' + str(trunc_threshold))
-
 #show()
 
 
@@ -65,7 +64,7 @@ print(np.allclose(ours_iff, numpys_iff)) # verify our idft against known ifft im
 
 
 ######################################################
-######################### truncate and save audio file
+######################### Truncate and save audio file
 ######################################################
 
 #w = wave.open("./audio-samples/lz-s2h-solo.wav", "rb")
