@@ -59,7 +59,15 @@ f(x)=\frac{1}{M}\sum_{u=0}^{M-1}F(u) e^{j 2\pi u x / N}
 \end{equation}
 where $x = 0,1,2,\dots, M-1$
 
-\subsection{Implementation}
+%\subsection{Implementation}
+
+\begin{figure}[!htbp]
+	\begin{center}
+		\leavevmode
+		\includegraphics[width=8cm]{images/dft.png}
+		\caption{1D DFT python implementation.}
+	\end{center}
+\end{figure}
 
 \section{2D DFT Definition}
 The 2D transform can be obtained by calculating the 1D of the rows of the image, following by the same function applied to the columns.
@@ -74,13 +82,22 @@ f(m,n)=\sum_{k=0}^{M-1}\sum_{l=0}^{N-1} F(k,l) e^{j 2\pi (\frac{km}{M} + \frac{l
 \end{equation}
 where $k = 0,1,2,\dots, M-1$ and $l = 0,1,2,\dots, N-1$
 
+\begin{figure}[!htbp]
+	\begin{center}
+		\leavevmode
+		\includegraphics[width=8cm]{images/dft2d.png}
+		\caption{2D DFT python implementation.}
+	\end{center}
+\end{figure}
+
+
 \subsection{The spectrum}
 The norm of the amplitude, or Fourier spectrum is defined as the image corresponding to the length of each complex number. Indeed, we can calculate the length of the complex number as:
 \begin{equation}
 	|F(u,v)|= (R^2(u,v) + I^2(u,v))^{1/2}
 \end{equation}
 
-The spectrum can be visualized by calculating the aforementioned formula. However, in order to properly visualize it, we need to translate the top-left corner to the center of the image. Doing this can be done by applying the transform from -M/2 to M/2 or simply multiplying the input image by $(-1)^{x+y}$ \cite{Gonzalez2008}.
+The spectrum can be visualized by calculating the aforementioned formula. However, in order to properly visualize it, we need to translate the top-left corner to the center of the image. This can be done by applying the transform from -M/2 to M/2 or simply multiplying the input image by $(-1)^{x+y}$ \cite{Gonzalez2008}.
 
 \begin{figure}[!htbp]
 	\begin{center}
