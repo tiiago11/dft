@@ -1,4 +1,4 @@
-command
+extern
 extension
 convert_path
 utils
@@ -22,7 +22,7 @@ ssl_support
 distutils
 py27compat
 Extension
-extern
+command
 _Command
 fnmatchcase
 _get_unpatched

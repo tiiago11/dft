@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>ecf0919f-b36d-4ffc-97bf-afb601826800</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Image.py</StartupFile>
+    <StartupFile>Audio.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>

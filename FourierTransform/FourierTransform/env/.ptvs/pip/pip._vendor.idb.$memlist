@@ -6,7 +6,7 @@ pkg_resources
 os
 ipaddress
 six
-packaging
+distlib
 pyparsing
 absolute_import
 vendored
@@ -16,6 +16,6 @@ _markerlib
 DEBUNDLED
 cachecontrol
 lockfile
-distlib
+packaging
 sys
 WHEEL_DIR

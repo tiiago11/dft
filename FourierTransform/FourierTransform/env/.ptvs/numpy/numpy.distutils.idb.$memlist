@@ -26,7 +26,6 @@ numpy_distribution
 parse_sections
 npy_pkg_config
 OptionParser
-pkg_name
 LibraryInfo
 line_endings
 d
